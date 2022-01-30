@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load stocktrackerusa_filter %}
+{% load mathfilters %}
+{% block content %}
+
+<div class="loader"></div>
+
+<div class="container mt-3" id="body-wrapper">
+    <div id="body-content">
+        <!-- Sidebar -->
+        <div class="row">
+            <div class="col-sm-12 col-md-3 col-lg-2 p-0">
+                {% include "sidebar.html" %}
+            </div>
+            <!-- Page Content -->
+            <div class="col-sm-12 col-md-9 col-lg-10 p-0">
+                <div class="container my-3">
+                    <div class="row justify-content-end my-3">
+                        <div class="col-3 input-group">
+                            <input type="date" class="form-control kw2"  value="{{ kw2|default_if_none:'' }}">
+                        </div>
+                        <div class="col-4 input-group">
+                            <input type="text"  title="종목코드 또는 종목명을 입력하세요 예:A005930" style="text-transform: uppercase;" class="form-control kw" value="{{ kw|upper|default_if_none:'' }}">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary pull-right" type="button" id="btn_search">찾기</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="table table-striped" >
+                       <thead>
+                       <tr class="thead-dark text-center align-items-center">
+                            <!--<th class="col-md-2">날짜</th> -->
+                            <th class="col-1.3 align-items-center" rowspan='2'><div style="text-align: center; height: 100%; line-height: 100%; font-size:1em;">날짜</div></th>
+                            <th class="col-1.3 align-items-center" rowspan='2'><div style="text-align: center; height: 100%; line-height: 100%; font-size:1em;">주식코드</div></th>
+                            <th class="col-2.2 align-items-center" rowspan='2'><div style="text-align: center; height: 100%; line-height: 100%; font-size:1em;">주식명</div></th>
+                            <th class="col-1.2 align-items-center" rowspan='2'><div style="text-align: center; height: 100%; line-height: 100%; font-size:1em;">종가</div></th>
+                            <th class="col-1.0 align-items-center" colspan='6'><div style="text-align: center; height: 100%; line-height: 100%; font-size:1em;">실현수익율</div></th>
+                       </tr>
+                       <tr class="thead-dark text-center align-items-center">
+                            <th class="col-1.0"><div style="height: 100%; line-height: 100%; font-size:1em;">최근일</div></th>
+                            <th class="col-1.0"><div style="height: 100%; line-height: 100%; font-size:1em;">7일</div></th>
+                            <th class="col-1.0"><div style="height: 100%; line-height: 100%; font-size:1em;">30일</div></th>
+                            <th class="col-1.0"><div style="height: 100%; line-height: 100%; font-size:1em;">90일</div></th>
+                            <th class="col-1.0"><div style="height: 100%; line-height: 100%; font-size:1em;">180일</div></th>
+                            <th class="col-1.0"><div style="height: 100%; line-height: 100%; font-size:1em;">360일</div></th>
+
+                       </tr>
+                       </thead>
+                       <tbody>
+                       {% if stockbarcodedata_list %}
+                       {% for stockbarcodedata in stockbarcodedata_list %}
+                       <tr class="text-center align-items-center">
+                            <td><div style="height: 100%; line-height: 100%; font-size:1em;">{{ stockbarcodedata.trade_date|date:'Y-m-d'  }}</div></td>
+                            <td><div style="height: 100%; line-height: 100%; font-size:1em;">{{ stockbarcodedata.StockCode }}</div></td>
+                            <td><div style="height: 100%; line-height: 100%; font-size:1em;">{{ stockbarcodedata.StockName }}</div></td>
+                            <td><div style="height: 100%; line-height: 100%; font-size:1em;">{{ stockbarcodedata.ClosePrice|floatformat:"0" }}</div></td>
+                            {% if stockbarcodedata.trade_date|date:'Y-m-d' <= tockbarcodedata.trade_date|datediff %}
+                                <td><div style="height: 100%; line-height: 100%; font-size:1em;"></div></td>
+                            {% else %}
+                                <td><div style="height: 100%; line-height: 100%; font-size:1em;">{{ stockbarcodedata.StockBarcodePerfReturn.TodayReturn|mul:100|floatformat:"1" }} % </div></td>
+                            {% endif %}
+                            <td><div style="height: 100%; line-height: 100%; font-size:1em;">{{ stockbarcodedata.StockBarcodePerfReturn.Day7Return|mul:100|floatformat:"1" }} % </div></td>
+                            <td><div style="height: 100%; line-height: 100%; font-size:1em;">{{ stockbarcodedata.StockBarcodePerfReturn.Day30Return|mul:100|floatformat:"1" }} % </div></td>
+                            <td><div style="height: 100%; line-height: 100%; font-size:1em;">{{ stockbarcodedata.StockBarcodePerfReturn.Day90Return|mul:100|floatformat:"1" }} % </div></td>
+                            <td><div style="height: 100%; line-height: 100%; font-size:1em;">{{ stockbarcodedata.StockBarcodePerfReturn.Day180Return|mul:100|floatformat:"1" }} % </div></td>
+                            <td><div style="height: 100%; line-height: 100%; font-size:1em;">{{ stockbarcodedata.StockBarcodePerfReturn.Day360Return|mul:100|floatformat:"1" }} % </div></td>
+<!--
+                            <td><font size="2"><b>{{ stockbarcodedata.trade_date|date:'Y-m-d'  }}</b></font></td>
+                            <td><font size="2"><b>{{ stockbarcodedata.StockCode }}</b></font></td>
+                            <td><font size="2.5"><b>{{ stockbarcodedata.StockName }}</b></font></td>
+                            <td><font size="2"><b>{{ stockbarcodedata.ClosePrice|floatformat:"0" }}</b></font></td>
+                            <td><font size="2"><b>{{ stockbarcodedata.StockBarcodePerfReturn.TodayReturn|mul:100|floatformat:"1" }} % </b></font></td>
+                            <td><font size="2"><b>{{ stockbarcodedata.StockBarcodePerfReturn.Day7Return|mul:100|floatformat:"1" }} % </b></font></td>
+                            <td><font size="2"><b>{{ stockbarcodedata.StockBarcodePerfReturn.Day30Return|mul:100|floatformat:"1" }} % </b></font></td>
+                            <td><font size="2"><b>{{ stockbarcodedata.StockBarcodePerfReturn.Day90Return|mul:100|floatformat:"1" }} % </b></font></td>
+                            <td><font size="2"><b>{{ stockbarcodedata.StockBarcodePerfReturn.Day180Return|mul:100|floatformat:"1" }} % </b></font></td>
+                            <td><font size="2"><b>{{ stockbarcodedata.StockBarcodePerfReturn.Day360Return|mul:100|floatformat:"1" }} % </b></font></td>
+-->
+                       </tr>
+                       {% endfor %}
+                       {% else %}
+                       <tr>
+                            <td colspan="12"><div style="text-align: center; height: 20px; line-height: 20px;">데이터가 없습니다.</div></td>
+                       </tr>
+                   {% endif %}
+                       </tbody>
+                    </table>
+
+                    <!-- 페이징처리 시작 -->
+                    <ul class="pagination justify-content-center">
+                        {% if stockbarcodedata_list.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" data-page="{{ stockbarcodedata_list.previous_page_number }}" href="#">이전</a>
+                           <!-- <a class="page-link" href="?page{{ question_extralist.previous_page_number }}">이전</a> -->
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+                        </li>
+                        {% endif %}
+                        <!-- 페이지 리스트 -->
+                        {% for page_number in stockbarcodedata_list.paginator.page_range %}
+                        {% if page_number >= stockbarcodedata_list.number|add:-5 and page_number <= stockbarcodedata_list.number|add:5 %}
+                            {% if page_number == stockbarcodedata_list.number %}
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" data-page="{{ page_number }}" href="#">{{ page_number }}</a>
+                                <!--<a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>-->
+                            </li>
+                            {% else %}
+                            <li class="page-item">
+                                <a class="page-link" data-page="{{ page_number }}" href="#">{{ page_number }}</a>
+                                <!--<a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a> -->
+                            </li>
+                            {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        <!-- 다음 페이지 -->
+                        {% if stockbarcodedata_list.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" data-page="{{ stockbarcodedata_list.next_page_number }}" href="#" >다음</a>
+                            <!--<a class="page-link" href="?page={{ stockbarcodedata_list.next_page_number }}">다음</a>-->
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    <!-- 페이징처리 끝 -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="searchForm" method="get" action="{% url 'stockbacktest' %}">
+    <input type="hidden" id="kw" name="kw" value="{{ kw|upper|default_if_none:'' }}">
+    <input type="hidden" id="kw2" name="kw2" value="{{ kw2|default_if_none:'' }}">
+    <input type="hidden" id="page" name="page" value="{{ page }}">
+</form>
+
+{% endblock %}
+
+{% block script %}
+<script type='text/javascript'>
+$(document).ready(function(){
+    $(".page-link").on('click', function() {
+        $('.loader').show();
+        $("#page").val($(this).data("page"));
+        $("#searchForm").submit();
+    });
+
+    $("#btn_search").on('click', function() {
+        $('.loader').show();
+        $("#kw").val($(".kw").val());
+        $("#kw2").val($(".kw2").val());
+        $("#page").val(1);
+        $("#searchForm").submit();
+    });
+});
+
+
+
+$(window).on('load', function() {
+     $('.loader').hide();
+});
+
+</script>
+
+{% endblock %}
+
+
+
+
