@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 from ..models import Question, QuestionCount
 from ..models import stockbarcodedata, stockbarcodeperfreturn, stockbarcodeperftotal, PageViewCount, listedstockinfo
 
-logger = logging.getLogger('pybo')
+logger = logging.getLogger('stocktrackerusa')
 
 
 def index(request):
@@ -27,26 +27,21 @@ def index(request):
     totalvisitcnt = request.GET.get('totalvisitcnt', '0')
     todayvisitcnt = request.GET.get('todayvisitcnt', '0')
 
-    temp_trade_date = stockbarcodedata.objects.all().filter(StockCode='A005930').values_list('trade_date',
-                                                                                             flat=True).order_by(
-        '-trade_date')[:1]
+    temp_trade_date = stockbarcodedata.objects.all().filter(StockCode='A005930').values_list('trade_date',flat=True).order_by('-trade_date')[:1]
     kw2 = request.GET.get('kw2', temp_trade_date)
 
     if kw:
         if (kw[0:1] != 'A' and kw[0:1] != 'a'):
             logger.info("주식명 검색 시작")
-            pathdetailinfo_list = stockbarcodedata.objects.select_related('StockBarcodePerfReturn',
-                                                                          'StockBarcodePerfTotal').all().filter(
+            pathdetailinfo_list = stockbarcodedata.objects.select_related('StockBarcodePerfReturn','StockBarcodePerfTotal').all().filter(
                 StockName__icontains=kw).filter(trade_date=kw2).order_by('-trade_date')
         else:
             logger.info("주식코드 검색 시작")
-            pathdetailinfo_list = stockbarcodedata.objects.select_related('StockBarcodePerfReturn',
-                                                                          'StockBarcodePerfTotal').all().filter(
+            pathdetailinfo_list = stockbarcodedata.objects.select_related('StockBarcodePerfReturn','StockBarcodePerfTotal').all().filter(
                 StockCode__icontains=kw).filter(trade_date=kw2).order_by('-trade_date')
     else:
         logger.info("Default 검색 시작")
-        pathdetailinfo_list = stockbarcodedata.objects.select_related('StockBarcodePerfReturn',
-                                                                      'StockBarcodePerfTotal').all().filter(
+        pathdetailinfo_list = stockbarcodedata.objects.select_related('StockBarcodePerfReturn','StockBarcodePerfTotal').all().filter(
             StockCode__icontains='A005930').filter(trade_date=kw2).all()
 
     # paginator = Paginator(pathdetailinfo_list, 10)
@@ -74,7 +69,7 @@ def index(request):
 
     logger.info("pathdetailinfo View 끝")
 
-    return render(request, 'pybo/pathdetailinfo.html', context)
+    return render(request, 'stocktrackerusa/pathdetailinfo.html', context)
 
     '''
 
@@ -99,7 +94,7 @@ def index(request):
     context = {'question_list':page_obj, 'page': page, 'kw': kw}
     #context = {'question_list':question_list}
 
-    return render(request, 'pybo/question_list.html', context)
+    return render(request, 'stocktrackerusa/question_list.html', context)
 '''
 
 

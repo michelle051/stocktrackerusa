@@ -1,6 +1,6 @@
-from .base import *
+from config.settings.base import *
 
-ALLOWED_HOSTS = ['13.124.5.37', 'stocktracker.co.kr']
+ALLOWED_HOSTS = ['15.165.138.67', 'djangostock.co.kr']
 STATIC_ROOT = BASE_DIR / 'static/'
 STATICFILES_DIRS = []
 DEBUG = False

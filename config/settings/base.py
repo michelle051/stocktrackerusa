@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'common.apps.CommonConfig',
-    'pybo.apps.PyboConfig',
+    'stocktrackerusa.apps.StocktrackerusaConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -173,7 +173,7 @@ LOGGING = {
             'level': 'INFO',
             'filters': ['require_debug_false'],
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': BASE_DIR / 'logs/mysite.log',
+            'filename': BASE_DIR / 'logs/mysiteusa.log',
             'maxBytes': 1024*1024*5,
             'backupCount': 5,
             'formatter': 'standard',
@@ -189,7 +189,7 @@ LOGGING = {
             'level': 'INFO',
             'propagate': False,
         },
-        'pybo': {
+        'stocktrackerusa': {
             'handlers': ['console', 'file'],
             'level': 'INFO',
         },

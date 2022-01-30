@@ -8,10 +8,9 @@ app_name = 'stocktrackerusa'
 
 urlpatterns = [
     # base_views.py
-    path('',
-         base_views.index, name='index'),
-    path('<int:question_id>/',
-         base_views.detail, name='detail'),
+    path('',base_views.index, name='index'),
+    path('qna', base_views.qna, name='qna'),
+    path('<int:question_id>/',base_views.detail, name='detail'),
 
     # question_views.py
     path('question/create/', question_views.question_create, name='question_create'),
