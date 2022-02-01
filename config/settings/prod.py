@@ -1,4 +1,4 @@
-from config.settings.base import *
+from .base import *
 
 ALLOWED_HOSTS = ['15.165.138.67', 'djangostock.co.kr']
 STATIC_ROOT = BASE_DIR / 'static/'
