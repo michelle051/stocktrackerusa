@@ -14,7 +14,7 @@
         <div class="col-4 input-group">
             <input type="text" class="form-control kw" value="{{ kw|default_if_none:'' }}">
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+                <button class="btn btn-outline-secondary" type="button" id="btn_search">Search</button>
             </div>
         </div>
     </div>
@@ -22,11 +22,11 @@
     <table class="table">
         <thead>
         <tr class="thead-dark">
-            <th>번호</th>
+            <th>No</th>
             <th>추천</th>
-            <th style="width:50%">제목</th>
-            <th>글쓴이</th>
-            <th>작성일시</th>
+            <th style="width:50%">Subject</th>
+            <th>Author</th>
+            <th>CreateDate</th>
         </tr>
         </thead>
         <tbody>
@@ -54,7 +54,7 @@
         {% endfor %}
         {% else %}
         <tr>
-            <td colspan="3">질문이 없습니다.</td>
+            <td colspan="3">No Question</td>
         </tr>
         {% endif %}
         </tbody>
@@ -65,11 +65,11 @@
         <!-- 이전페이지 -->
         {% if question_list.has_previous %}
         <li class="page-item">
-            <a class="page-link" data-page="{{ question_list.previous_page_number }}" href="#">이전</a>
+            <a class="page-link" data-page="{{ question_list.previous_page_number }}" href="#">Previous</a>
         </li>
         {% else %}
         <li class="page-item disabled">
-            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">Previous</a>
         </li>
         {% endif %}
         <!-- 페이지리스트 -->
@@ -89,11 +89,11 @@
         <!-- 다음페이지 -->
         {% if question_list.has_next %}
         <li class="page-item">
-            <a class="page-link" data-page="{{ question_list.next_page_number }}" href="#">다음</a>
+            <a class="page-link" data-page="{{ question_list.next_page_number }}" href="#">Next</a>
         </li>
         {% else %}
         <li class="page-item disabled">
-            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">Next</a>
         </li>
         {% endif %}
     </ul>

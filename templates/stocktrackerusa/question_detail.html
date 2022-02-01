@@ -17,7 +17,7 @@
         <div class="col-1"> <!-- 추천영역 -->
             <div class="bg-light text-center p-3 border font-weight-bolder mb-1">{{question.voter.count}}</div>
             <a href="#" data-uri="{% url 'stocktrackerusa:vote_question' question.id  %}"
-               class="recommend btn btn-sm btn-secondary btn-block my-1">추천</a>
+               class="recommend btn btn-sm btn-secondary btn-block my-1">recommend</a>
         </div>
         <div class="col-11"> <!-- 질문영역 -->
             <!-- 기존내용 -->
@@ -39,9 +39,9 @@
                     {% if request.user == question.author %}
                     <div class="my-3">
                         <a href="{% url 'stocktrackerusa:question_modify' question.id  %}"
-                        class="btn btn-sm btn-outline-secondary">수정</a>
+                        class="btn btn-sm btn-outline-secondary">Modify</a>
                         <a href="#" class="delete btn btn-sm btn-outline-secondary"
-                        data-uri="{% url 'stocktrackerusa:question_delete' question.id  %}">삭제</a>
+                        data-uri="{% url 'stocktrackerusa:question_delete' question.id  %}">Delete</a>
                     </div>
                     {% endif %}
 
@@ -55,13 +55,13 @@
                             <span>
                                 - {{ comment.author }}, {{ comment.create_date }}
                                 {% if comment.modify_date %}
-                                (수정:{{ comment.modify_date }})
+                                (Modify:{{ comment.modify_date }})
                                 {% endif %}
                             </span>
                             {% if request.user == comment.author %}
-                            <a href="{% url 'stocktrackerusa:comment_modify_question' comment.id  %}" class="small">수정</a>,
+                            <a href="{% url 'stocktrackerusa:comment_modify_question' comment.id  %}" class="small">Modify</a>,
                             <a href="#" class="small delete"
-                            data-uri="{% url 'stocktrackerusa:comment_delete_question' comment.id  %}">삭제</a>
+                            data-uri="{% url 'stocktrackerusa:comment_delete_question' comment.id  %}">Delete</a>
                             {% endif %}
                         </div>
                     {% endfor %}
@@ -83,7 +83,7 @@
         <div class="col-1">  <!-- 추천영역 -->
             <div class="bg-light text-center p-3 border font-weight-bolder mb-1">{{answer.voter.count}}</div>
             <a href="#" data-uri="{% url 'stocktrackerusa:vote_answer' answer.id  %}"
-                class="recommend btn btn-sm btn-secondary btn-block my-1">추천</a>
+                class="recommend btn btn-sm btn-secondary btn-block my-1">recommend</a>
         </div>
         <div class="col-11">  <!-- 답변영역 -->
             <!-- 기존내용 -->
@@ -105,9 +105,9 @@
                     {% if request.user == answer.author %}
                     <div class="my-3">
                         <a href="{% url 'stocktrackerusa:answer_modify' answer.id  %}"
-                            class="btn btn-sm btn-outline-secondary">수정</a>
+                            class="btn btn-sm btn-outline-secondary">Modify</a>
                         <a href="#" class="delete btn btn-sm btn-outline-secondary "
-                            data-uri="{% url 'stocktrackerusa:answer_delete' answer.id  %}">삭제</a>
+                            data-uri="{% url 'stocktrackerusa:answer_delete' answer.id  %}">Delete</a>
                     </div>
                     {% endif %}
 
@@ -124,9 +124,9 @@
                                 {% endif %}
                             </span>
                             {% if request.user == comment.author %}
-                            <a href="{% url 'stocktrackerusa:comment_modify_answer' comment.id  %}" class="small">수정</a>,
+                            <a href="{% url 'stocktrackerusa:comment_modify_answer' comment.id  %}" class="small">Modify</a>,
                             <a href="#" class="small delete"
-                            data-uri="{% url 'stocktrackerusa:comment_delete_answer' comment.id  %}">삭제</a>
+                            data-uri="{% url 'stocktrackerusa:comment_delete_answer' comment.id  %}">Delete</a>
                             {% endif %}
                         </div>
                     {% endfor %}

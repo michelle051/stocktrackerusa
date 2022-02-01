@@ -27,22 +27,19 @@ def index(request):
     totalvisitcnt = request.GET.get('totalvisitcnt', '0')
     todayvisitcnt = request.GET.get('todayvisitcnt', '0')
 
-    temp_trade_date = stockbarcodedata.objects.all().filter(StockCode='A005930').values_list('trade_date',flat=True).order_by('-trade_date')[:1]
+    temp_trade_date = stockbarcodedata.objects.all().filter(StockCode='AAPL').values_list('trade_date',flat=True).order_by('-trade_date')[:1]
     kw2 = request.GET.get('kw2', temp_trade_date)
 
     if kw:
-        if (kw[0:1] != 'A' and kw[0:1] != 'a'):
+        if (len(kw) >= 5):
             logger.info("주식명 검색 시작")
-            pathdetailinfo_list = stockbarcodedata.objects.select_related('StockBarcodePerfReturn','StockBarcodePerfTotal').all().filter(
-                StockName__icontains=kw).filter(trade_date=kw2).order_by('-trade_date')
+            pathdetailinfo_list = stockbarcodedata.objects.select_related('StockBarcodePerfReturn','StockBarcodePerfTotal').all().filter(StockName__icontains=kw).filter(trade_date=kw2).order_by('-trade_date')
         else:
             logger.info("주식코드 검색 시작")
-            pathdetailinfo_list = stockbarcodedata.objects.select_related('StockBarcodePerfReturn','StockBarcodePerfTotal').all().filter(
-                StockCode__icontains=kw).filter(trade_date=kw2).order_by('-trade_date')
+            pathdetailinfo_list = stockbarcodedata.objects.select_related('StockBarcodePerfReturn','StockBarcodePerfTotal').all().filter(StockCode__icontains=kw).filter(trade_date=kw2).order_by('-trade_date')
     else:
         logger.info("Default 검색 시작")
-        pathdetailinfo_list = stockbarcodedata.objects.select_related('StockBarcodePerfReturn','StockBarcodePerfTotal').all().filter(
-            StockCode__icontains='A005930').filter(trade_date=kw2).all()
+        pathdetailinfo_list = stockbarcodedata.objects.select_related('StockBarcodePerfReturn','StockBarcodePerfTotal').all().filter(StockCode__icontains='AAPL').filter(trade_date=kw2).all()
 
     # paginator = Paginator(pathdetailinfo_list, 10)
     # page_obj = paginator.get_page(page)
