@@ -12,3 +12,5 @@ urlpatterns = [
     path('stockpathdetail/', chartfinder_views.stockpathdetail, name='stockpathdetail'),
     path('pathdetailinfo/', chartfinder_views.pathdetailinfo, name='pathdetailinfo'),
 ]
+
+handler404 = 'common.views.page_not_found'
