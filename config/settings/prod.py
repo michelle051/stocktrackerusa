@@ -1,6 +1,6 @@
 from .base import *
 
 ALLOWED_HOSTS = ['13.124.250.126']
-STATIC_ROOT = BASE_DIR / 'pybo/static/'
+STATIC_ROOT = BASE_DIR / 'static/'
 STATICFILES_DIRS = []
 DEBUG = False
